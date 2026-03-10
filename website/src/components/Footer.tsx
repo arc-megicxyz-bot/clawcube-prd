@@ -1,20 +1,30 @@
+"use client";
+
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 
-const productLinks = [
-  { label: "ClawCube Lite", href: "/products/lite" },
-  { label: "ClawCube Core", href: "/products/core" },
-  { label: "ClawCube NAS", href: "/products/nas" },
-  { label: "ClawCube Ultra", href: "/products/ultra" },
-];
+interface FooterProps {
+  locale: Locale;
+}
 
-const companyLinks = [
-  { label: "Use Cases", href: "/use-cases" },
-  { label: "Why ClawCube", href: "/why-clawcube" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
-];
+export default function Footer({ locale }: FooterProps) {
+  const dict = useDictionary();
 
-export default function Footer() {
+  const productSlugs = ["lite", "core", "nas", "ultra"] as const;
+
+  const productLinks = productSlugs.map((slug) => ({
+    label: dict.productData[slug].name,
+    href: `/${locale}/products/${slug}`,
+  }));
+
+  const companyLinks = [
+    { label: dict.nav.useCases, href: `/${locale}/use-cases` },
+    { label: dict.nav.whyClawcube, href: `/${locale}/why-clawcube` },
+    { label: dict.nav.faq, href: `/${locale}/faq` },
+    { label: dict.footer.contact, href: `/${locale}/contact` },
+  ];
+
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -22,20 +32,20 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link
-              href="/"
+              href={`/${locale}`}
               className="text-xl font-bold tracking-tight text-white"
             >
               ClawCube
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
-              Purpose-built hardware for OpenClaw
+              {dict.footer.tagline}
             </p>
           </div>
 
           {/* Products */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">
-              Products
+              {dict.footer.productsTitle}
             </h3>
             <ul className="flex flex-col gap-3">
               {productLinks.map((link) => (
@@ -54,7 +64,7 @@ export default function Footer() {
           {/* Company */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">
-              Company
+              {dict.footer.companyTitle}
             </h3>
             <ul className="flex flex-col gap-3">
               {companyLinks.map((link) => (
@@ -73,7 +83,7 @@ export default function Footer() {
 
         {/* Bottom copyright */}
         <div className="mt-16 border-t border-white/10 pt-8 text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} ClawCube. All rights reserved.
+          &copy; {new Date().getFullYear()} {dict.footer.copyright}
         </div>
       </div>
     </footer>

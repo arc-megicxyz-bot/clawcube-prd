@@ -9,6 +9,8 @@ interface ProductCardProps {
   slug: Product["slug"];
   badge?: Product["badge"];
   specs: Product["specs"];
+  locale: string;
+  learnMoreText: string;
 }
 
 export default function ProductCard({
@@ -18,6 +20,8 @@ export default function ProductCard({
   slug,
   badge,
   specs,
+  locale,
+  learnMoreText,
 }: ProductCardProps) {
   const displaySpecs = specs.slice(0, 3);
 
@@ -61,10 +65,10 @@ export default function ProductCard({
 
         {/* Link */}
         <Link
-          href={`/products/${slug}`}
+          href={`/${locale}/products/${slug}`}
           className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-[#3b82f6] transition-colors hover:text-[#60a5fa]"
         >
-          Learn More
+          {learnMoreText}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

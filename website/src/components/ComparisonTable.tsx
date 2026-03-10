@@ -1,6 +1,16 @@
-import { products } from "@/lib/products";
+interface ComparisonProduct {
+  slug: string;
+  name: string;
+  badge?: string;
+  specs: { label: string; value: string }[];
+}
 
-export default function ComparisonTable() {
+interface ComparisonTableProps {
+  products: ComparisonProduct[];
+  specLabel: string;
+}
+
+export default function ComparisonTable({ products, specLabel }: ComparisonTableProps) {
   // Collect all unique spec labels across products
   const allLabels = Array.from(
     new Set(products.flatMap((p) => p.specs.map((s) => s.label)))
@@ -12,7 +22,7 @@ export default function ComparisonTable() {
         <thead>
           <tr className="border-b border-white/10">
             <th className="px-4 py-4 text-sm font-semibold text-gray-400">
-              Spec
+              {specLabel}
             </th>
             {products.map((product) => (
               <th
@@ -21,9 +31,9 @@ export default function ComparisonTable() {
               >
                 <div className="flex items-center gap-2">
                   {product.name}
-                  {product.badge === "Most Popular" && (
+                  {product.badge && (
                     <span className="rounded-full bg-[#3b82f6] px-2.5 py-0.5 text-xs font-medium text-white">
-                      Most Popular
+                      {product.badge}
                     </span>
                   )}
                 </div>

@@ -1,19 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/lib/products";
-import { products } from "@/lib/products";
+import type { Dictionary } from "@/i18n/dictionaries/en";
 import CTASection from "@/components/CTASection";
 
 interface ProductDetailPageProps {
   product: Product;
+  locale: string;
+  dict: Dictionary;
+  otherProducts: Product[];
 }
 
-export default function ProductDetailPage({ product }: ProductDetailPageProps) {
-  const otherProducts = products.filter((p) => p.slug !== product.slug);
-
+export default function ProductDetailPage({
+  product,
+  locale,
+  dict,
+  otherProducts,
+}: ProductDetailPageProps) {
   return (
     <main>
-      {/* ── Hero ─────────────────────────────────────────────── */}
+      {/* -- Hero ------------------------------------------------- */}
       <section className="mx-auto max-w-7xl px-6 pb-16 pt-24 lg:pt-32">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Image */}
@@ -44,26 +50,26 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href="/contact"
+                href={`/${locale}/contact`}
                 className="inline-flex h-12 items-center justify-center rounded-lg bg-[#3b82f6] px-8 text-base font-medium text-white transition-colors hover:bg-[#2563eb]"
               >
-                Join the Waitlist
+                {dict.productDetail.joinWaitlist}
               </Link>
               <Link
-                href="/products"
+                href={`/${locale}/products`}
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-white/20 px-8 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5"
               >
-                Compare All Models
+                {dict.productDetail.otherModels}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Specs ────────────────────────────────────────────── */}
+      {/* -- Specs ------------------------------------------------ */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="mb-8 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Specifications
+          {dict.productDetail.specifications}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {product.specs.map((spec) => (
@@ -80,10 +86,10 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
         </div>
       </section>
 
-      {/* ── Best For ─────────────────────────────────────────── */}
+      {/* -- Best For --------------------------------------------- */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="mb-8 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Best For
+          {dict.productDetail.bestFor}
         </h2>
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {product.bestFor.map((item) => (
@@ -108,10 +114,10 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
         </ul>
       </section>
 
-      {/* ── Use Cases ────────────────────────────────────────── */}
+      {/* -- Use Cases -------------------------------------------- */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="mb-8 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Use Cases
+          {dict.productDetail.useCases}
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {product.useCases.map((useCase) => (
@@ -143,16 +149,16 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
         </div>
       </section>
 
-      {/* ── Other Models ─────────────────────────────────────── */}
+      {/* -- Other Models ----------------------------------------- */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="mb-8 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Other Models
+          {dict.productDetail.otherModels}
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           {otherProducts.map((p) => (
             <Link
               key={p.slug}
-              href={`/products/${p.slug}`}
+              href={`/${locale}/products/${p.slug}`}
               className="group rounded-xl border border-white/10 bg-[#111] p-6 transition-all duration-300 hover:border-[#3b82f6]/30 hover:bg-[#161616]"
             >
               <div className="flex items-center gap-3">
@@ -199,12 +205,12 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────── */}
+      {/* -- CTA -------------------------------------------------- */}
       <CTASection
-        title={`Ready to get your ${product.name}?`}
-        description="Join the waitlist to be first in line when ClawCube ships. No commitment, no spam - just a heads-up when your AI box is ready."
-        buttonText="Join the Waitlist"
-        buttonHref="/contact"
+        title={dict.productDetail.cta.title}
+        description={dict.productDetail.cta.description}
+        buttonText={dict.productDetail.cta.button}
+        buttonHref={`/${locale}/contact`}
       />
     </main>
   );

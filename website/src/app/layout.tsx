@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ClawCube — Purpose-built Hardware for OpenClaw",
   description:
-    "ClawCube is the first purpose-built hardware platform for OpenClaw — bringing reliable, repeatable dexterous manipulation to every robotics lab and factory floor.",
+    "For developers, AI enthusiasts, and self-hosters who want reliable AI-native hardware, ClawCube delivers a curated lineup of OpenClaw-ready devices.",
 };
 
 export default function RootLayout({
@@ -26,13 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0a0a0a] text-[#ededed]`}
       >
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );

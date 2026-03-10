@@ -2,22 +2,30 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
+import { useDictionary } from "@/i18n/DictionaryProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const navLinks = [
-  { label: "Products", href: "/products" },
-  { label: "Use Cases", href: "/use-cases" },
-  { label: "Why ClawCube", href: "/why-clawcube" },
-  { label: "FAQ", href: "/faq" },
-];
+interface HeaderProps {
+  locale: Locale;
+}
 
-export default function Header() {
+export default function Header({ locale }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const dict = useDictionary();
+
+  const navLinks = [
+    { label: dict.nav.products, href: `/${locale}/products` },
+    { label: dict.nav.useCases, href: `/${locale}/use-cases` },
+    { label: dict.nav.whyClawcube, href: `/${locale}/why-clawcube` },
+    { label: dict.nav.faq, href: `/${locale}/faq` },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-tight text-white">
+        <Link href={`/${locale}`} className="text-xl font-bold tracking-tight text-white">
           ClawCube
         </Link>
 
@@ -32,11 +40,12 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <LanguageSwitcher />
           <Link
-            href="/contact"
+            href={`/${locale}/contact`}
             className="rounded-lg bg-[#3b82f6] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[#2563eb]"
           >
-            Get Started
+            {dict.nav.getStarted}
           </Link>
         </nav>
 
@@ -122,12 +131,15 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="mt-2 px-4">
+            <LanguageSwitcher />
+          </div>
           <Link
-            href="/contact"
+            href={`/${locale}/contact`}
             className="mt-4 rounded-lg bg-[#3b82f6] px-4 py-3 text-center text-base font-medium text-white transition-colors hover:bg-[#2563eb]"
             onClick={() => setMobileOpen(false)}
           >
-            Get Started
+            {dict.nav.getStarted}
           </Link>
         </nav>
       </div>

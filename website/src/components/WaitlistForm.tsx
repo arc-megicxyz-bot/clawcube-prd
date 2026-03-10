@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const productOptions = [
-  { value: "", label: "Select a product..." },
-  { value: "lite", label: "ClawCube Lite" },
-  { value: "core", label: "ClawCube Core" },
-  { value: "nas", label: "ClawCube NAS" },
-  { value: "ultra", label: "ClawCube Ultra" },
-];
+import { useDictionary } from "@/i18n/DictionaryProvider";
 
 export default function WaitlistForm() {
   const [name, setName] = useState("");
@@ -16,6 +9,7 @@ export default function WaitlistForm() {
   const [product, setProduct] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const dict = useDictionary();
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,14 +35,22 @@ export default function WaitlistForm() {
           </svg>
         </div>
         <h3 className="text-xl font-bold text-white">
-          Thanks for your interest!
+          {dict.form.successTitle}
         </h3>
         <p className="mt-2 text-sm text-gray-400">
-          We&apos;ll be in touch soon with updates on ClawCube.
+          {dict.form.successMessage}
         </p>
       </div>
     );
   }
+
+  const productOptions = [
+    { value: "", label: dict.form.productPlaceholder },
+    { value: "lite", label: dict.form.options.lite },
+    { value: "core", label: dict.form.options.core },
+    { value: "nas", label: dict.form.options.nas },
+    { value: "ultra", label: dict.form.options.ultra },
+  ];
 
   const inputClasses =
     "w-full rounded-lg border border-white/10 bg-[#1a1a1a] px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6]";
@@ -65,7 +67,7 @@ export default function WaitlistForm() {
             htmlFor="waitlist-name"
             className="mb-1.5 block text-sm font-medium text-gray-300"
           >
-            Name
+            {dict.form.name}
           </label>
           <input
             id="waitlist-name"
@@ -73,7 +75,7 @@ export default function WaitlistForm() {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
+            placeholder={dict.form.namePlaceholder}
             className={inputClasses}
           />
         </div>
@@ -84,7 +86,7 @@ export default function WaitlistForm() {
             htmlFor="waitlist-email"
             className="mb-1.5 block text-sm font-medium text-gray-300"
           >
-            Email
+            {dict.form.email}
           </label>
           <input
             id="waitlist-email"
@@ -92,7 +94,7 @@ export default function WaitlistForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={dict.form.emailPlaceholder}
             className={inputClasses}
           />
         </div>
@@ -103,7 +105,7 @@ export default function WaitlistForm() {
             htmlFor="waitlist-product"
             className="mb-1.5 block text-sm font-medium text-gray-300"
           >
-            Interested in
+            {dict.form.product}
           </label>
           <select
             id="waitlist-product"
@@ -126,15 +128,14 @@ export default function WaitlistForm() {
             htmlFor="waitlist-message"
             className="mb-1.5 block text-sm font-medium text-gray-300"
           >
-            Message{" "}
-            <span className="font-normal text-gray-500">(optional)</span>
+            {dict.form.message}
           </label>
           <textarea
             id="waitlist-message"
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Tell us about your use case..."
+            placeholder={dict.form.messagePlaceholder}
             className={inputClasses}
           />
         </div>
@@ -144,7 +145,7 @@ export default function WaitlistForm() {
           type="submit"
           className="mt-2 w-full rounded-lg bg-[#3b82f6] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2563eb]"
         >
-          Join the Waitlist
+          {dict.form.submit}
         </button>
       </div>
     </form>
